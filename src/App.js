@@ -5,8 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 const axios = require('axios');
-
-const API_KEY = '4148d0b11b41a97bed2190dbb20dd27d';
+const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
 
 export default class App extends Component {
   constructor(props) {
@@ -16,11 +15,36 @@ export default class App extends Component {
       city: 'San Francisco',
       currentTemp: '',
       forecast: [
-        { day: 0, temp: [] },
-        { day: 1, temp: [] },
-        { day: 2, temp: [] },
-        { day: 3, temp: [] },
-        { day: 4, temp: [] }
+        {
+          day: '',
+          temp: [],
+          humidity: '',
+          skies: { main: '', description: '' }
+        },
+        {
+          day: '',
+          temp: [],
+          humidity: '',
+          skies: { main: '', description: '' }
+        },
+        {
+          day: '',
+          temp: [],
+          humidity: '',
+          skies: { main: '', description: '' }
+        },
+        {
+          day: '',
+          temp: [],
+          humidity: '',
+          skies: { main: '', description: '' }
+        },
+        {
+          day: '',
+          temp: [],
+          humidity: '',
+          skies: { main: '', description: '' }
+        }
       ]
     };
 
@@ -36,8 +60,6 @@ export default class App extends Component {
 
       .then(response => {
         const data = response.data;
-        // console.log(data);
-        // let currentTemp = Math.round(((data.main.temp - 273) * 9) / 5 + 32);
         let currentTemp = data.main.temp;
         this.setState({
           city: city,
@@ -58,27 +80,45 @@ export default class App extends Component {
         // console.log(data);
 
         const temp = [];
+        let week = [];
 
         data.map(item => {
           temp.push(item.main.temp_min);
           temp.push(item.main.temp_max);
-          // console.log(temp);
           return temp;
         });
 
+        const day = Date().slice(0, 3);
+
+        if (day === 'Sun') {
+          week = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed'];
+        } else if (day === 'Mon') {
+          week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+        } else if (day === 'Tue') {
+          week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+        } else if (day === 'Wed') {
+          week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+        } else if (day === 'Thu') {
+          week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+        } else if (day === 'Fri') {
+          week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+        }
+        //case where day is Saturday
+        else {
+          week = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed'];
+        }
+
         let weather = [
-          { day: 0, temp: [] },
-          { day: 1, temp: [] },
-          { day: 2, temp: [] },
-          { day: 3, temp: [] },
-          { day: 4, temp: [] }
+          { day: week[0], temp: [] },
+          { day: week[1], temp: [] },
+          { day: week[2], temp: [] },
+          { day: week[3], temp: [] },
+          { day: week[4], temp: [] }
         ];
 
         for (let i = 0; i < 16; i++) {
-          // arr[0].push(Math.round((temp[i] - 273) * 9) / 5 + 32);
           weather[0].temp.push(Math.round(temp[i]));
           weather[0].temp.sort();
-          // console.log(weather[0]);
         }
 
         for (let i = 16; i < 32; i++) {
@@ -100,7 +140,6 @@ export default class App extends Component {
           weather[4].temp.push(Math.round(temp[i]));
           weather[4].temp.sort();
         }
-
         // console.log(weather);
 
         this.setState({
@@ -125,16 +164,13 @@ export default class App extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    // alert(`Finding weather for you in ${this.state.text}`);
-    // this.getData(this.state.text);
+
     this.getData(this.state.text);
     this.getFiveDay(this.state.text);
     this.setState({ text: '' });
   }
 
   render() {
-    // console.log(this.state.forecast);
-
     return (
       <div style={styles.container}>
         <h1>Weather App</h1>
@@ -154,12 +190,7 @@ export default class App extends Component {
             onChange={this.handleChange}
             value={this.state.text}
           />
-          <Button
-            // type="submit"
-            className="button"
-            color="primary"
-            variant="contained"
-          >
+          <Button className="button" color="primary" variant="contained">
             Check Weather
           </Button>
         </form>

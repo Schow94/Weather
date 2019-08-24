@@ -5,12 +5,11 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default function Day(props) {
   const classes = useStyles();
-  console.log(props);
   const { low, high, day } = props;
 
   return (
     <div className={classes.day}>
-      <Typography>Day: {day}</Typography>
+      <Typography>{day}</Typography>
       <i
         style={{ fontSize: '60px', color: '#fcdd74' }}
         className="fa fa-circle"

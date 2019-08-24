@@ -16,7 +16,7 @@ export default function WeatherCard(props) {
 
   function renderWeek() {
     return forecast.map((day, i) => (
-      <Day key={i} day={i} low={day.temp[0]} high={day.temp[15]} />
+      <Day key={i} day={day.day} low={day.temp[0]} high={day.temp[15]} />
     ));
   }
 
