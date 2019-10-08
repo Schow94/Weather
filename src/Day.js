@@ -5,10 +5,15 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default function Day(props) {
   const classes = useStyles();
-  const { low, high, day } = props;
+  const { low, high, day, selectDay, showOneDay } = props;
+
+  const selectOneDay = day => {
+    selectDay(day);
+    showOneDay(day);
+  };
 
   return (
-    <div className={classes.day}>
+    <div className={classes.day} onClick={() => selectOneDay(day)}>
       <Typography>{day}</Typography>
       <i
         style={{ fontSize: '60px', color: '#fcdd74' }}
@@ -21,7 +26,7 @@ export default function Day(props) {
 
 const useStyles = makeStyles({
   day: {
-    width: '7em',
+    width: '20%',
     height: '9em',
     display: 'flex',
     flexDirection: 'column',

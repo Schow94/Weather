@@ -12,23 +12,37 @@ import Typography from '@material-ui/core/Typography';
 export default function WeatherCard(props) {
   const classes = useStyles();
 
-  const { city, currentTemp, forecast } = props;
+  const {
+    city,
+    currentTemp,
+    forecast,
+    selectedDay,
+    selectDay,
+    showOneDay,
+    selectedDayWeather
+  } = props;
 
   function renderWeek() {
     return forecast.map((day, i) => (
-      <Day key={i} day={day.day} low={day.temp[0]} high={day.temp[15]} />
+      <Day
+        selectDay={selectDay}
+        showOneDay={showOneDay}
+        key={i}
+        day={day.day}
+        low={day.temp[0]}
+        high={day.temp[15]}
+      />
     ));
   }
 
   return (
     <Card className={classes.parentCard}>
       <CardContent>
-        <Typography
-          className={classes.title}
-          color="textSecondary"
-          gutterBottom
-        >
-          Today's weather in {city}
+        <Typography variant="h5" color="textSecondary">
+          {city}
+        </Typography>
+        <Typography variant="subtitle1" color="textSecondary">
+          {selectedDay}
         </Typography>
         <div
           style={{
@@ -54,8 +68,16 @@ export default function WeatherCard(props) {
             }}
           >
             <Typography>Precipitation:</Typography>
-            <Typography>Humidity:</Typography>
-            <Typography>Wind:</Typography>
+            <Typography>
+              {selectedDayWeather.humidity
+                ? `Humidity: ${selectedDayWeather.humidity}`
+                : `Humidity: 0%`}
+            </Typography>
+            <Typography>
+              {selectedDayWeather.wind
+                ? `Wind: ${selectedDayWeather.wind}`
+                : `Wind: 0 mph`}
+            </Typography>
           </div>
         </div>
       </CardContent>
@@ -68,21 +90,20 @@ export default function WeatherCard(props) {
 }
 
 const useStyles = makeStyles({
-  title: {
-    fontSize: 20
-  },
   parentCard: {
-    height: '60%',
+    height: '45%',
+    width: '30%',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    marginTop: '3em'
   },
   currentTemp: {
     fontSize: 50
   },
-
   week: {
     display: 'flex',
+    justifyContent: 'center',
     flexDirection: 'row'
   },
   degree: {
