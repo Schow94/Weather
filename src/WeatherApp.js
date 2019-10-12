@@ -346,7 +346,7 @@ export default class App extends Component {
 
         <form style={styles.formContainer} onSubmit={this.handleSubmit}>
           <TextField
-            style={{ width: '400px' }}
+            style={{ width: '40vw', marginBottom: '2vh' }}
             autoComplete="off"
             id="my-input"
             aria-describedby="my-helper-text"
@@ -355,9 +355,14 @@ export default class App extends Component {
             placeholder="Enter a City"
             onChange={this.handleChange}
             value={this.state.text}
-            style={input}
           />
-          <Button className="button" color="primary" variant="contained">
+          <Button
+            onClick={this.handleSubmit}
+            className="button"
+            color="primary"
+            variant="contained"
+            style={{ height: '5vh' }}
+          >
             Check Weather
           </Button>
         </form>
@@ -378,7 +383,7 @@ export default class App extends Component {
 
 const styles = {
   container: {
-    width: '100%',
+    width: '100vw',
     height: '100vh',
     display: 'flex',
     flexDirection: 'column',
@@ -391,8 +396,7 @@ const styles = {
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
-    overflow: 'scroll',
-    paddingTop: '2em'
+    overflow: 'scroll'
   },
   button: { marginLeft: '10px' },
   buttons: {
@@ -401,8 +405,9 @@ const styles = {
   },
   formContainer: {
     display: 'flex',
-    flexDirection: 'row',
-    marginBottom: '20px'
+    flexDirection: 'column',
+    marginBottom: '1vh',
+    width: '40vw'
   },
   input: {
     marginTop: '1em',
@@ -410,7 +415,8 @@ const styles = {
     width: '300px'
   },
   title: {
-    fontSize: '3em',
-    letterSpacing: '8px'
+    fontSize: '5vh',
+    letterSpacing: '8px',
+    margin: '2vh'
   }
 };

@@ -19,7 +19,8 @@ export default function WeatherCard(props) {
     selectedDay,
     selectDay,
     showOneDay,
-    selectedDayWeather
+    selectedDayWeather,
+    cardSize
   } = props;
 
   function renderWeek() {
@@ -37,50 +38,57 @@ export default function WeatherCard(props) {
 
   return (
     <Card className={classes.parentCard}>
-      <CardContent>
-        <Typography variant="h5" color="textSecondary">
-          {city}
-        </Typography>
-        <Typography variant="subtitle1" color="textSecondary">
-          {selectedDay}
-        </Typography>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between'
-          }}
-        >
-          <div style={{ display: 'flex' }}>
-            <i
-              style={{ margin: '10px', fontSize: '60px', color: '#d4d2d2' }}
-              className="fa fa-cloud"
-            />
-            <Typography className={classes.currentTemp}>
-              {currentTemp}
-              <span className={classes.degree}>°F</span>
-            </Typography>
-          </div>
+      <div className={cardSize}>
+        <CardContent>
+          <Typography variant="h5" color="textSecondary">
+            {city}
+          </Typography>
+          <Typography variant="subtitle1" color="textSecondary">
+            {selectedDay}
+          </Typography>
           <div
             style={{
               display: 'flex',
-              flexDirection: 'column'
+              flexDirection: 'row',
+              justifyContent: 'space-between'
             }}
           >
-            <Typography>Precipitation:</Typography>
-            <Typography>
-              {selectedDayWeather.humidity
-                ? `Humidity: ${selectedDayWeather.humidity}`
-                : `Humidity: 0%`}
-            </Typography>
-            <Typography>
-              {selectedDayWeather.wind
-                ? `Wind: ${selectedDayWeather.wind}`
-                : `Wind: 0 mph`}
-            </Typography>
+            <div style={{ display: 'flex' }}>
+              <i
+                style={{
+                  marginRight: '0.2em',
+                  fontSize: '5vw',
+                  color: '#d4d2d2'
+                }}
+                className="fa fa-cloud"
+              />
+              <Typography className={classes.currentTemp}>
+                {currentTemp}
+                <span className={classes.degree}>°F</span>
+              </Typography>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column'
+              }}
+            >
+              <Typography>Precipitation:</Typography>
+              <Typography>
+                {selectedDayWeather.humidity
+                  ? `Humidity: ${selectedDayWeather.humidity}`
+                  : `Humidity: 0%`}
+              </Typography>
+              <Typography>
+                {selectedDayWeather.wind
+                  ? `Wind: ${selectedDayWeather.wind}`
+                  : `Wind: 0 mph`}
+              </Typography>
+            </div>
           </div>
-        </div>
-      </CardContent>
+        </CardContent>
+      </div>
+
       <CardActions>
         <Button size="small">More Weather Info</Button>
       </CardActions>
@@ -91,23 +99,32 @@ export default function WeatherCard(props) {
 
 const useStyles = makeStyles({
   parentCard: {
-    height: '45%',
-    width: '30%',
+    height: '65vh',
+    width: '95vw',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-around',
-    marginTop: '3em'
+    padding: '1vh',
+    marginTop: '1vh',
+    marginBottom: '1vh'
   },
   currentTemp: {
-    fontSize: 50
+    fontSize: '4vw'
   },
   week: {
     display: 'flex',
     justifyContent: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginBottom: '3vh'
   },
   degree: {
-    fontSize: '20px',
+    fontSize: '2.5vh',
     opacity: 0.8
+  },
+  cardSize: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });

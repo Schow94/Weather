@@ -16,7 +16,7 @@ export default function Day(props) {
     <div className={classes.day} onClick={() => selectOneDay(day)}>
       <Typography>{day}</Typography>
       <i
-        style={{ fontSize: '60px', color: '#fcdd74' }}
+        style={{ fontSize: '5vw', color: '#fcdd74' }}
         className="fa fa-circle"
       />
       <Typography>{`${low}° ${high}°`}</Typography>
@@ -26,7 +26,7 @@ export default function Day(props) {
 
 const useStyles = makeStyles({
   day: {
-    width: '20%',
+    width: '18vw',
     height: '9em',
     display: 'flex',
     flexDirection: 'column',
