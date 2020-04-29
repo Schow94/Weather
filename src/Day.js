@@ -7,13 +7,13 @@ export default function Day(props) {
   const classes = useStyles();
   const { low, high, day, selectDay, showOneDay } = props;
 
-  const selectOneDay = day => {
-    selectDay(day);
-    showOneDay(day);
-  };
+  // const selectOneDay = (day) => {
+  //   selectDay(day);
+  //   showOneDay(day);
+  // };
 
   return (
-    <div className={classes.day} onClick={() => selectOneDay(day)}>
+    <div className={classes.day}>
       <Typography>{day}</Typography>
       <i
         style={{ fontSize: '5vw', color: '#fcdd74' }}
@@ -33,6 +33,6 @@ const useStyles = makeStyles({
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: '10px',
-    color: '#a8a7a7'
-  }
+    color: '#a8a7a7',
+  },
 });

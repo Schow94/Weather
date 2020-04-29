@@ -22,7 +22,7 @@ export default class App extends Component {
         temp: [],
         humidity: '',
         wind: '',
-        rain: ''
+        rain: '',
       },
       forecast: [
         {
@@ -31,7 +31,7 @@ export default class App extends Component {
           humidity: '',
           wind: '',
           rain: '',
-          skies: { main: '', description: '' }
+          skies: { main: '', description: '' },
         },
         {
           day: '',
@@ -39,7 +39,7 @@ export default class App extends Component {
           humidity: '',
           wind: '',
           rain: '',
-          skies: { main: '', description: '' }
+          skies: { main: '', description: '' },
         },
         {
           day: '',
@@ -47,7 +47,7 @@ export default class App extends Component {
           humidity: '',
           wind: '',
           rain: '',
-          skies: { main: '', description: '' }
+          skies: { main: '', description: '' },
         },
         {
           day: '',
@@ -55,7 +55,7 @@ export default class App extends Component {
           humidity: '',
           wind: '',
           rain: '',
-          skies: { main: '', description: '' }
+          skies: { main: '', description: '' },
         },
         {
           day: '',
@@ -63,9 +63,9 @@ export default class App extends Component {
           humidity: '',
           wind: '',
           rain: '',
-          skies: { main: '', description: '' }
-        }
-      ]
+          skies: { main: '', description: '' },
+        },
+      ],
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -76,28 +76,28 @@ export default class App extends Component {
   }
 
   getData(city) {
-    let currentUrl = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&APPID=${API_KEY}`;
+    let currentUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&APPID=${API_KEY}`;
     return axios
       .get(currentUrl)
 
-      .then(response => {
+      .then((response) => {
         const data = response.data;
         let currentTemp = data.main.temp;
         this.setState({
           city: city,
-          currentTemp: currentTemp
+          currentTemp: currentTemp,
         });
       })
 
-      .catch(error => console.log('There was an error: ', error));
+      .catch((error) => console.log('There was an error: ', error));
   }
 
   getFiveDay(city) {
-    let fiveDayUrl = `http://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&APPID=${API_KEY}`;
+    let fiveDayUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&APPID=${API_KEY}`;
     return axios
       .get(fiveDayUrl)
 
-      .then(response => {
+      .then((response) => {
         const data = response.data.list;
         console.log('data', data);
 
@@ -107,42 +107,43 @@ export default class App extends Component {
         let wind = [];
         let rain = [];
 
-        data.map(item => {
+        data.map((item) => {
           temp.push(item.main.temp_min);
           temp.push(item.main.temp_max);
           return temp;
         });
 
-        data.map(item => {
+        data.map((item) => {
           humidity.push(item.main.humidity);
           return humidity;
         });
 
-        data.map(item => {
+        data.map((item) => {
           wind.push(item.wind.speed);
           return wind;
         });
 
         // STILL WORKING ON FILTERING OUT rain objs without a rain[3h] prop
-        data.map(item => {
+        data.map((item) => {
           return rain.push(item.rain);
         });
         // Leave rain out for now
 
         const day = Date().slice(0, 3);
+        console.log(day);
 
         if (day === 'Sun') {
-          week = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed'];
+          week = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur'];
         } else if (day === 'Mon') {
           week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
         } else if (day === 'Tue') {
-          week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+          week = ['Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         } else if (day === 'Wed') {
-          week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+          week = ['Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
         } else if (day === 'Thu') {
-          week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+          week = ['Thu', 'Fri', 'Sat', 'Sun', 'Mon'];
         } else if (day === 'Fri') {
-          week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+          week = ['Fri', 'Sat', 'Sun', 'Mon', 'Tue'];
         }
         //case where day is Saturday
         else {
@@ -154,7 +155,7 @@ export default class App extends Component {
           { day: week[1], temp: [], humidity: '' },
           { day: week[2], temp: [], humidity: '' },
           { day: week[3], temp: [], humidity: '' },
-          { day: week[4], temp: [], humidity: '' }
+          { day: week[4], temp: [], humidity: '' },
         ];
 
         //Add High/Low temps for each day
@@ -190,7 +191,7 @@ export default class App extends Component {
         let dayFourHumid = [];
         let dayFiveHumid = [];
 
-        const average = arr =>
+        const average = (arr) =>
           Math.round(arr.reduce((acc, c) => acc + c) / arr.length);
 
         for (let i = 0; i < 8; i++) {
@@ -293,21 +294,32 @@ export default class App extends Component {
 
         this.setState({
           city: city,
-          forecast: forecast
+          forecast: forecast,
         });
       })
 
-      .catch(error => console.log('There was an error: ', error));
+      .catch((error) => console.log('There was an error: ', error));
   }
+
+  getToday = () => {
+    const date = new Date();
+    const day = `${date}`.slice(0, 3);
+    console.log(date);
+
+    this.setState({
+      selectedDay: day,
+    });
+  };
 
   componentDidMount() {
     this.getData(this.state.city);
     this.getFiveDay(this.state.city);
+    this.getToday();
   }
 
   handleChange(e) {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   }
 
@@ -321,19 +333,19 @@ export default class App extends Component {
 
   selectDay(day) {
     this.setState({
-      selectedDay: day
+      selectedDay: day,
     });
   }
 
   showOneDay(day) {
     let currentDayData = this.state.forecast.filter(
-      day => day.day === this.state.selectedDay
+      (day) => day.day === this.state.selectedDay
     );
 
     console.log(currentDayData);
 
     this.setState({
-      selectedDayWeather: currentDayData[0]
+      selectedDayWeather: currentDayData[0],
     });
   }
 
@@ -396,27 +408,27 @@ const styles = {
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
-    overflow: 'scroll'
+    overflow: 'scroll',
   },
   button: { marginLeft: '10px' },
   buttons: {
     marginTop: '30px',
-    marginBottom: '10px'
+    marginBottom: '10px',
   },
   formContainer: {
     display: 'flex',
     flexDirection: 'column',
     marginBottom: '1vh',
-    width: '40vw'
+    width: '40vw',
   },
   input: {
     marginTop: '1em',
     marginRight: '1em',
-    width: '300px'
+    width: '300px',
   },
   title: {
     fontSize: '5vh',
     letterSpacing: '8px',
-    margin: '2vh'
-  }
+    margin: '2vh',
+  },
 };
